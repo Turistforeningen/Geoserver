@@ -1,0 +1,57 @@
+{
+  "name": "node-geoserver",
+  "version": "1.0.0",
+  "description": "A Geo Server written in Node.JS",
+  "main": "lib/server.js",
+  "directories": {
+    "test": "test",
+    "src": "src",
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "supervisor -w src -- src/server.litcoffee",
+    "build": "coffee --compile --bare --output lib/ src/",
+    "prepublish": "coffee --bare --compile --output lib/ src/",
+    "postpublish": "rm -rf lib/*",
+    "test": "mocha -w -b -c --check-leaks test/index.coffee -R progress --compilers coffee:coffee-script/register,litcoffee:coffee-script/register",
+    "test-drone": "INTEGRATION_TEST=true node_modules/.bin/mocha -b -c --check-leaks test/index.coffee -R spec --compilers coffee:coffee-script/register,litcoffee:coffee-script/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Turistforeningen/node-vagrant-template.git"
+  },
+  "keywords": [
+    "Example"
+  ],
+  "author": "Hans Kristian Flaatten <hans.kristian.flaatten@turistforeningen.no>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Turistforeningen/node-vagrant-template/issues"
+  },
+  "homepage": "https://github.com/Turistforeningen/node-vagrant-template",
+  "devDependencies": {
+    "coffee-script": "~1",
+    "mocha": "~2",
+    "supertest": "^0.15.0",
+    "supervisor": "^0.6.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.11.0",
+    "express": "^4.11.1",
+    "librato-express": "^0.2.0",
+    "mongodb": "^2.0.14",
+    "morgan": "^1.5.1",
+    "raven": "^0.7.2"
+  },
+  "config": {
+    "PORT_WWW": 8080,
+    "SNETRY_DNS": null,
+    "MONGO_URI": null,
+    "LIBRATO_USER": null,
+    "LIBRATO_TOKEN": null
+  },
+  "engines": {
+    "node": "0.10.36",
+    "npm": "1.4.28"
+  }
+}
