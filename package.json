@@ -44,7 +44,7 @@
     "raven": "0.7.2"
   },
   "config": {
-    "PORT_WWW": 8080,
+    "PORT": 8080,
     "SNETRY_DNS": null,
     "MONGO_URI": null,
     "LIBRATO_USER": null,

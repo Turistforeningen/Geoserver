@@ -12,7 +12,7 @@
 
 ## Configuration
 
-    process.env.PORT_WWW ?= 8080
+    process.env.PORT ?= 8080
     process.env.LIBRATO_INTERVAL ?= 1
 
     app = module.exports = express()
@@ -62,6 +62,6 @@ requests shall not contain any body – this applies for errors as well.
 
     if not module.parent
       mongo.on 'ready', ->
-        app.listen process.env.PORT_WWW
-        console.log "Server is listening on port #{process.env.PORT_WWW}"
+        app.listen process.env.PORT
+        console.log "Server is listening on port #{process.env.PORT}"
 
