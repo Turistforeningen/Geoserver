@@ -1,7 +1,7 @@
 {
-  "name": "node-geoserver",
+  "name": "Geoserver",
   "version": "1.0.0",
-  "description": "A Geo Server written in Node.JS",
+  "description": "Geoserver written in Node.JS",
   "main": "lib/server.js",
   "directories": {
     "test": "test",
@@ -18,17 +18,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Turistforeningen/node-vagrant-template.git"
+    "url": "git://github.com/Turistforeningen/Geoserver.git"
   },
   "keywords": [
-    "Example"
+    "Node",
+    "Geo",
+    "Postgis",
+    "Geospatial",
+    "Data",
+    "Geometry"
   ],
   "author": "Hans Kristian Flaatten <hans.kristian.flaatten@turistforeningen.no>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Turistforeningen/node-vagrant-template/issues"
+    "url": "https://github.com/Turistforeningen/Geoserver/issues"
   },
-  "homepage": "https://github.com/Turistforeningen/node-vagrant-template",
+  "homepage": "https://github.com/Turistforeningen/Geoserver",
   "devDependencies": {
     "mocha": "~2",
     "supertest": "0.15.0",
