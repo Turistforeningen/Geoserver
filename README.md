@@ -63,8 +63,8 @@ Has the corresponding output of:
   "length": 123520.49892038807,
   "geojson": {
     "properties": {
-      "start": { "type": "Point", coordinates: [ 5.32907, 60.39826 ] },
-      "stop": { "type": "Point", coordinates: [ 6.41474, 60.62869 ] }
+      "start": { "type": "Point", "coordinates": [ 5.32907, 60.39826 ] },
+      "stop": { "type": "Point", "coordinates": [ 6.41474, 60.62869 ] }
     }
   }
 }
