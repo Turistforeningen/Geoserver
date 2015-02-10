@@ -5,7 +5,7 @@
 
     apiv1.get '/', (req, res) ->
       res.json
-        intersect_url: "#{req.path}/boundary/intersect/"
+        intersect_url: "#{req.originalUrl}/boundary/intersect/"
 
     apiv1.post '/boundary/intersect', (req, res, next) ->
       if not req.body.geometry
