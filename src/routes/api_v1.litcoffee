@@ -8,16 +8,16 @@
         intersect_url: "#{req.originalUrl}/boundary/intersect/"
 
     apiv1.post '/boundary/intersect', (req, res, next) ->
-      if not req.body.geometry
+      if not req.body.geojson
         return res.status(400).json message: 'Body should be a JSON object'
 
-      if req.body.geometry.type not in ['Point', 'LineString', 'Polygon']
+      if req.body.geojson.type not in ['Point', 'LineString', 'Polygon']
         return res.status(422).json message: 'Geometry type must be Point, Linestring, or Polygon'
 
-      if not (req.body.geometry.coordinates instanceof Array)
+      if not (req.body.geojson.coordinates instanceof Array)
         return res.status(422).json message: 'Geometry coordinates must be an Array'
 
-      query = geojson: $geoIntersects: $geometry: req.body.geometry
+      query = geojson: $geoIntersects: $geometry: req.body.geojson
 
       mongo.grenser.find(query, {fields: geojson: 0}).toArray (err, docs) ->
         return next err if err
