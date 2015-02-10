@@ -10,13 +10,13 @@ base = '/api/v1'
 
 describe '/', ->
   it 'should do this', (done) ->
-    req.get "#{base}/"
+    req.get "#{base}"
       .expect 200
       .expect (res) ->
         assert.deepEqual res.body,
           boundary_intersect_post:
             method: 'POST'
-            endpoint: '/api/v1//boundary/intersect/'
+            endpoint: '/api/v1/boundary/intersect/'
             example_body: '{"geojson": { "type": "LineString", "coordinates": [[ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ]] }}'
       .end done
 
