@@ -51,7 +51,9 @@ describe '/boundary/intersect', ->
         assert.deepEqual res.body.fylker, [ 'Hordaland' ]
       .end done
 
-  it 'should return for comple LineString', (done) ->
+  it 'should return for complex LineString', (done) ->
+    @timeout 10000
+
     req.post "#{base}/boundary/intersect"
       .send trail
       .expect 200
