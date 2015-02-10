@@ -21,7 +21,17 @@
 
       mongo.grenser.find(query, {fields: geojson: 0}).toArray (err, docs) ->
         return next err if err
-        return res.json docs
+
+        typer = Område: 'områder', Fylke: 'fylker', Kommune: 'kommuner'
+        ret = områder: [], fylker: [], kommuner: []
+
+        for doc in docs when typer[doc.type] isnt undefined
+          if doc.type is 'Område'
+            ret[typer[doc.type]].push doc._id
+          else
+            ret[typer[doc.type]].push doc.navn
+
+        return res.json ret
 
     module.exports = apiv1
 
