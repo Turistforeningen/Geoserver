@@ -20,7 +20,7 @@
     app.set 'json spaces', 2
     app.set 'x-powered-by', false
 
-    app.use logger 'dev'
+    app.use logger 'dev' if app.get 'env' isnt 'TEST'
     app.use body.json()
     app.use librato.middleware
     app.use librato.count name: 'request', period: 1
