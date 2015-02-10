@@ -9,15 +9,9 @@ req = request app
 base = '/api/v1'
 
 describe '/', ->
-  it 'should do this', (done) ->
+  it 'should do return API documentation', (done) ->
     req.get "#{base}"
       .expect 200
-      .expect (res) ->
-        assert.deepEqual res.body,
-          boundary_intersect_post:
-            method: 'POST'
-            endpoint: '/api/v1/boundary/intersect/'
-            example_body: '{"geojson": { "type": "LineString", "coordinates": [[ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ]] }}'
       .end done
 
 describe '/boundary/intersect', ->
@@ -61,5 +55,41 @@ describe '/boundary/intersect', ->
         #assert.deepEqual res.body.områder, []
         assert.deepEqual res.body.kommuner, [ 'Vang', 'Lærdal', 'Aurland', 'Hol', 'Ål', 'Ulvik' ]
         assert.deepEqual res.body.fylker, [ 'Oppland', 'Buskerud', 'Sogn og Fjordane', 'Hordaland' ]
+      .end done
+
+describe '/line/analyze', ->
+  url = "#{base}/line/analyze"
+
+  it 'should return 400 for invalid body', (done) ->
+    req.post url
+      .expect 400
+      .end done
+
+  it 'should return 422 for invalid geometry type', (done) ->
+    req.post url
+      .send geojson: type: 'Foo'
+      .expect 422
+      .end done
+
+  it 'should return 422 for invalid geometry coordinates', (done) ->
+    req.post url
+      .send geojson: type: 'LineString', coordinates: 'Foobar'
+      .expect 422
+      .end done
+
+  it 'should return for simple LineString', (done) ->
+    req.post url
+      .send geojson: type: 'LineString', coordinates: [
+        [ 5.32907, 60.39826 ]
+        [ 6.41474, 60.62869 ]
+      ]
+      .expect 200
+      .expect (res) ->
+        assert.deepEqual res.body,
+          length: 123520.49892038807
+          geojson:
+            properties:
+              start: type: 'Point', coordinates: [ 5.32907, 60.39826 ]
+              stop: type: 'Point', coordinates: [ 6.41474, 60.62869 ]
       .end done
 

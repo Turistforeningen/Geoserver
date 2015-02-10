@@ -45,6 +45,7 @@
     "body-parser": "1.11.0",
     "coffee-script": "1.9.0",
     "express": "4.11.2",
+    "geoutil": "^1.1.1",
     "librato-express": "0.2.0",
     "mongodb": "2.0.15",
     "morgan": "1.5.1",
