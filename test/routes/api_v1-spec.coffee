@@ -14,7 +14,10 @@ describe '/', ->
       .expect 200
       .expect (res) ->
         assert.deepEqual res.body,
-          intersect_url: '/api/v1//boundary/intersect/'
+          boundary_intersect_post:
+            method: 'POST'
+            endpoint: '/api/v1//boundary/intersect/'
+            example_body: '{"geojson": { "type": "LineString", "coordinates": [[ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ]] }}'
       .end done
 
 describe '/boundary/intersect', ->

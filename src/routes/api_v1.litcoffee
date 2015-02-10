@@ -5,7 +5,10 @@
 
     apiv1.get '/', (req, res) ->
       res.json
-        intersect_url: "#{req.originalUrl}/boundary/intersect/"
+        boundary_intersect_post:
+          method: 'POST'
+          endpoint: "#{req.originalUrl}/boundary/intersect/"
+          example_body: '{"geojson": { "type": "LineString", "coordinates": [[ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ]] }}'
 
     apiv1.post '/boundary/intersect', (req, res, next) ->
       if not req.body.geojson
