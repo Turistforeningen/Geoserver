@@ -88,6 +88,8 @@ describe '/line/analyze', ->
         assert.deepEqual res.body,
           length: 123520.49892038807
           geojson:
+            type: 'LineString'
+            coordinates: [ [ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ] ]
             properties:
               start: type: 'Point', coordinates: [ 5.32907, 60.39826 ]
               stop: type: 'Point', coordinates: [ 6.41474, 60.62869 ]

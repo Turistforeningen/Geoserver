@@ -51,13 +51,15 @@
       if not (req.body.geojson.coordinates instanceof Array)
         return res.status(422).json message: 'Geometry coordinates must be an Array'
 
+      geojson = req.body.geojson
+
+      geojson.properties ?= {}
+      geojson.properties.start = type: 'Point', coordinates: geojson.coordinates[0]
+      geojson.properties.stop  = type: 'Point', coordinates: geojson.coordinates[geojson.coordinates.length-1]
+
       return res.json
         length: geoutil.lineDistance req.body.geojson.coordinates
-        geojson:
-          properties:
-            start: type: 'Point', coordinates: req.body.geojson.coordinates[0]
-            stop: type: 'Point', coordinates: req.body.geojson.coordinates[req.body.geojson.coordinates.length-1]
-
+        geojson: geojson
 
     module.exports = apiv1
 
