@@ -28,7 +28,11 @@
       app.use librato.middleware
       app.use librato.count name: 'request', period: 1
 
-## COORS
+## CORS
+
+Cross-site HTTP requests are HTTP requests for resources from a different domain
+than the domain of the resource making the request. [Read
+More](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
 
     origins = process.env.ALLOW_ORIGINS?.split(',') or []
 
@@ -36,16 +40,25 @@
       if req.get 'Origin'
         origin = url.parse req.get('Origin') or ''
 
+Check if the request Origin is on in the `ALLOW_ORIGINS` list. If not return a
+403 to prevent this Origin from misusing the service.
+
         if origin.hostname not in origins
           error = new Error "Bad Origin Header #{req.get('Origin')}"
           error.status = 403
           return next error
+
+Set the correct CORS headers.
 
         res.set 'Access-Control-Allow-Origin', req.get('Origin')
         res.set 'Access-Control-Allow-Methods', 'GET, POST'
         res.set 'Access-Control-Allow-Headers', 'X-Requested-With, Content-Type'
         res.set 'Access-Control-Expose-Headers', 'X-Response-Time'
         res.set 'Access-Control-Allow-Max-Age', 0
+
+Browsers check for CORS support by doing a "preflight". This means sending a
+HTTP `OPTIONS` request to the server and checking the returned CORS-headers. No
+body is required for this request so we can safely end this request now.
 
       return res.status(200).end() if req.method is 'OPTIONS'
       return next()
