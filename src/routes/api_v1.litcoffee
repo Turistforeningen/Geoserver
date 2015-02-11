@@ -35,7 +35,7 @@
 
         for doc in docs when typer[doc.type] isnt undefined
           if doc.type is 'Område'
-            ret[typer[doc.type]].push doc._id
+            ret[typer[doc.type]].push _id: doc._id, navn: doc.navn
           else
             ret[typer[doc.type]].push doc.navn
 
