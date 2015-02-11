@@ -10,6 +10,19 @@ before (done) ->
   @timeout 10000
   mongo.on 'ready', done
 
+describe '/CloudHealthCheck', ->
+  it 'should return 200 for OPTIONS request', (done) ->
+    req.options '/CloudHealthCheck'
+      .expect 200
+      .end done
+
+  it 'shoudl return 200 for GET request', (done) ->
+    req.get '/CloudHealthCheck'
+      .expect 200
+      .expect (res) ->
+        assert.deepEqual res.body, message: 'System OK'
+      .end done
+
 describe 'CORS', ->
   it 'should send CORS headers', (done) ->
     req.options '/'

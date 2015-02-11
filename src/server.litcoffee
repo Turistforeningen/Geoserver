@@ -60,13 +60,23 @@ Browsers check for CORS support by doing a "preflight". This means sending a
 HTTP `OPTIONS` request to the server and checking the returned CORS-headers. No
 body is required for this request so we can safely end this request now.
 
-      return res.status(200).end() if req.method is 'OPTIONS'
+      if req.method is 'OPTIONS' and req.path isnt '/CloudHealthCheck'
+        return res.status(200).end()
+
       return next()
 
 ## Routes
 
     app.get '/', (req, res, next) ->
       res.redirect '/api/v1'
+
+    app.all '/CloudHealthCheck', (req, res, next) ->
+      mongo.db.command dbStats: true, (err) ->
+        return next err if err
+
+        res.status 200
+        return res.end() if req.method is 'HEAD'
+        return res.json message: 'System OK'
 
     app.use '/api/v1', require './routes/api_v1'
 
