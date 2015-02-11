@@ -1,8 +1,8 @@
 assert  = require 'assert'
-app     = require '../../src/server'
-mongo   = require '../../src/mongo'
 request = require 'supertest'
 
+app     = require '../../src/server'
+mongo   = require '../../src/mongo'
 trail   = require '../assets/trail.json'
 
 req = request app
