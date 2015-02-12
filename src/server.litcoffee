@@ -25,8 +25,8 @@
 
     if app.get 'env' isnt 'TEST'
       app.use logger 'dev'
-      app.use librato.middleware
-      app.use librato.count name: 'request', period: 1
+      app.use '/api', librato.middleware
+      app.use '/api', librato.count name: 'request', period: 1
 
 ## CORS
 
