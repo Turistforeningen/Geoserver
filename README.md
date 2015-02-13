@@ -1,7 +1,7 @@
 Geoserver
 =========
 
-I house geoserver written in Node.JS.
+In-house Geoserver written in Node.JS.
 
 ## API
 
