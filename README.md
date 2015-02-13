@@ -60,7 +60,7 @@ Has the corresponding output of:
 
 ```json
 {
-  "length": 123520.49892038807,
+  "length": 123520,
   "geojson": {
     "type": "LineString",
     "coordinates": [[ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ]],
