@@ -58,7 +58,7 @@
       geojson.properties.stop  = type: 'Point', coordinates: geojson.coordinates[geojson.coordinates.length-1]
 
       return res.json
-        length: Math.floor geoutil.lineDistance req.body.geojson.coordinates
+        length: Math.floor geoutil.lineDistance req.body.geojson.coordinates, true
         geojson: geojson
 
     module.exports = apiv1

@@ -86,7 +86,7 @@ describe '/line/analyze', ->
       .expect 200
       .expect (res) ->
         assert.deepEqual res.body,
-          length: 123520
+          length: 64781
           geojson:
             type: 'LineString'
             coordinates: [ [ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ] ]
