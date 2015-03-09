@@ -27,9 +27,9 @@ Has the corresponding output of:
 ```json
 {
   "områder": [
-    { _id: '52408144e7926dcf1500004b', navn: 'Stølsheimen, Bergsdalen og Vossefjellene' },
-    { _id: '52408144e7926dcf15000025', navn: 'Byfjellene i Bergen' },
-    { _id: '52408144e7926dcf15000035', navn: 'Nordhordland' }
+    { "_id": "52408144e7926dcf1500004b", "navn": "Stølsheimen, Bergsdalen og Vossefjellene" },
+    { "_id": "52408144e7926dcf15000025", "navn": "Byfjellene i Bergen" },
+    { "_id": "52408144e7926dcf15000035", "navn": "Nordhordland" }
   ],
   "fylker": [
     "Hordaland"
