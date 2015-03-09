@@ -40,7 +40,11 @@ describe '/boundary/intersect', ->
       ]
       .expect 200
       .expect (res) ->
-        #assert.deepEqual res.body.områder, []
+        assert.deepEqual res.body.områder, [
+          { _id: '52408144e7926dcf1500004b', navn: 'Stølsheimen, Bergsdalen og Vossefjellene' }
+          { _id: '52408144e7926dcf15000025', navn: 'Byfjellene i Bergen' }
+          { _id: '52408144e7926dcf15000035', navn: 'Nordhordland' }
+        ]
         assert.deepEqual res.body.kommuner, [ 'Samnanger', 'Vaksdal', 'Osterøy', 'Bergen', 'Voss' ]
         assert.deepEqual res.body.fylker, [ 'Hordaland' ]
       .end done
@@ -52,7 +56,12 @@ describe '/boundary/intersect', ->
       .send trail
       .expect 200
       .expect (res) ->
-        #assert.deepEqual res.body.områder, []
+        assert.deepEqual res.body.områder, [
+          { _id: '52408144e7926dcf15000050', navn: 'Huldreheimen' }
+          { _id: '52408144e7926dcf1500000c', navn: 'Jotunheimen' }
+          { _id: '52408144e7926dcf1500003c', navn: 'Skarvheimen' }
+          { _id: '52408144e7926dcf15000039', navn: 'Hardangervidda' }
+        ]
         assert.deepEqual res.body.kommuner, [ 'Vang', 'Lærdal', 'Aurland', 'Hol', 'Ål', 'Ulvik' ]
         assert.deepEqual res.body.fylker, [ 'Oppland', 'Buskerud', 'Sogn og Fjordane', 'Hordaland' ]
       .end done
