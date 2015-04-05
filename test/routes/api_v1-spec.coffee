@@ -1,6 +1,8 @@
 assert  = require 'assert'
 request = require 'supertest'
 
+resolve = require('path').resolve
+
 app     = require '../../src/server'
 mongo   = require '../../src/mongo'
 trail   = require '../assets/trail.json'
@@ -102,5 +104,36 @@ describe '/line/analyze', ->
             properties:
               start: type: 'Point', coordinates: [ 5.32907, 60.39826 ]
               stop: type: 'Point', coordinates: [ 6.41474, 60.62869 ]
+      .end done
+
+describe '/gpx/parse', ->
+  url = "#{base}/gpx/parse"
+
+  it 'should parse uploaded GPX file', (done) ->
+    @timeout 5000
+    req.post url
+      .attach 'files[]', resolve __dirname, '../data/totland.gpx'
+      .expect 200
+      .expect (res) ->
+        assert.equal res.body['files[]'].length, 1
+        assert.equal res.body['files[]'][0].fieldname, 'files[]'
+        assert.equal res.body['files[]'][0].filename, 'totland.gpx'
+        assert.equal res.body['files[]'][0].extension, 'gpx'
+        assert.equal res.body['files[]'][0].mimetype, 'application/gpx+xml'
+        assert.equal typeof res.body['files[]'][0].geojson, 'object'
+      .end done
+
+  it 'should return error for non GPX file', (done) ->
+    req.post url
+      .attach 'files[]', resolve __dirname, '../data/file.json'
+      .expect 200
+      .expect (res) ->
+        assert.equal res.body['files[]'].length, 1
+        assert.equal res.body['files[]'][0].fieldname, 'files[]'
+        assert.equal res.body['files[]'][0].filename, 'file.json'
+        assert.equal res.body['files[]'][0].extension, 'json'
+        assert.equal res.body['files[]'][0].mimetype, 'application/json'
+        assert.equal res.body['files[]'][0].geojson, null
+        assert.equal res.body['files[]'][0].error, 'Invalid extension \'json\''
       .end done
 

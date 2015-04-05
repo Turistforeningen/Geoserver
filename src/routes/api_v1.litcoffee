@@ -14,6 +14,10 @@
           method: 'POST'
           endpoint: "#{req.originalUrl}/boundary/intersect/"
           example_body: '{"geojson": { "type": "LineString", "coordinates": [[ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ]] }}'
+        gpx_parse_post:
+          method: 'POST'
+          endpoint: "#{req.originalUrl}/gpx/parse/"
+          example_body: 'multipart/form-data upload'
 
     apiv1.post '/boundary/intersect', (req, res, next) ->
       if not req.body.geojson
@@ -60,6 +64,35 @@
       return res.json
         length: Math.floor geoutil.lineDistance req.body.geojson.coordinates, true
         geojson: geojson
+
+    apiv1.use '/gpx/parse', require('multer')
+      putSingleFilesInArray: true
+      dest: require('os').tmpdir()
+
+    readFileSync = require('fs').readFileSync
+    DOMParser = require('xmldom').DOMParser
+    domparser = new DOMParser()
+    geojsonFromGpx = require('togeojson').gpx
+
+    apiv1.post '/gpx/parse', (req, res, next) ->
+      res.end() if not req.files
+
+      for field, files of req.files
+        for file, i in files
+          req.files[field][i] =
+            fieldname: file.fieldname
+            filename: file.originalname
+            extension: file.extension
+            mimetype: file.mimetype
+            geojson: null
+
+          if file.extension is 'gpx'
+            dom = domparser.parseFromString readFileSync file.path, 'utf8'
+            req.files[field][i].geojson = geojsonFromGpx dom
+          else
+            req.files[field][i].error = "Invalid extension '#{file.extension}'"
+
+      res.json req.files
 
     module.exports = apiv1
 
