@@ -57,7 +57,7 @@
   },
   "config": {
     "PORT": 8080,
-    "ALLOW_ORIGINS": "http://example.com",
+    "ALLOW_ORIGINS": "example1.com,example2.com",
     "SNETRY_DNS": null,
     "MONGO_URI": null,
     "LIBRATO_INTERVAL": 1,
