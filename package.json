@@ -14,7 +14,7 @@
     "prepublish": "coffee --bare --compile --output lib/ src/",
     "postpublish": "rm -rf lib/*",
     "test": "NODE_ENV=test mocha -w -b -c --check-leaks test/index.coffee -R progress --compilers coffee:coffee-script/register,litcoffee:coffee-script/register",
-    "test-drone": "NODE_ENV=TEST node_modules/.bin/mocha -b -c --check-leaks test/index.coffee -R spec --compilers coffee:coffee-script/register,litcoffee:coffee-script/register"
+    "test-drone": "NODE_ENV=test node_modules/.bin/mocha -b -c --check-leaks test/index.coffee -R spec --compilers coffee:coffee-script/register,litcoffee:coffee-script/register"
   },
   "repository": {
     "type": "git",
