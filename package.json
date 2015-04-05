@@ -57,8 +57,10 @@
   },
   "config": {
     "PORT": 8080,
+    "ALLOW_ORIGINS": "http://example.com",
     "SNETRY_DNS": null,
     "MONGO_URI": null,
+    "LIBRATO_INTERVAL": 1,
     "LIBRATO_USER": null,
     "LIBRATO_TOKEN": null
   },
