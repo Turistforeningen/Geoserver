@@ -26,9 +26,9 @@ describe '/CloudHealthCheck', ->
 describe 'CORS', ->
   it 'should send CORS headers', (done) ->
     req.options '/'
-      .set 'Origin', 'http://example.com'
+      .set 'Origin', 'http://example1.com'
       .expect 200
-      .expect 'Access-Control-Allow-Origin', 'http://example.com'
+      .expect 'Access-Control-Allow-Origin', 'http://example1.com'
       .expect 'Access-Control-Allow-Methods', 'GET, POST'
       .expect 'Access-Control-Allow-Headers', 'X-Requested-With, Content-Type'
       .expect 'Access-Control-Expose-Headers', 'X-Response-Time'
@@ -37,7 +37,7 @@ describe 'CORS', ->
 
   it 'should deny non-allowed Origin', (done) ->
     req.options '/'
-      .set 'Origin', 'http://foo.com'
+      .set 'Origin', 'http://example3.com'
       .expect 403
       .end done
 
