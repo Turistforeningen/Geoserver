@@ -1,6 +1,6 @@
 {
   "name": "Geoserver",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Geoserver written in Node.JS",
   "main": "lib/server.js",
   "directories": {
