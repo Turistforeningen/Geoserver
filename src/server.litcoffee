@@ -1,27 +1,29 @@
-    express = require 'express'
-    logger  = require 'morgan'
-    body    = require 'body-parser'
-    raven   = require 'raven'
-    url     = require 'url'
+    express       = require 'express'
+    logger        = require 'morgan'
+    url           = require 'url'
 
-    mongo   = require './mongo'
-    sentry  = require './sentry'
+    bodyParser    = require 'body-parser'
+    compression   = require 'compression'
+    responseTime  = require 'response-time'
+
+    raven         = require 'raven'
+    sentry        = require './sentry'
+
+    process.env.LIBRATO_INTERVAL ?= 1
     librato =
       middleware: require('./librato').middleware.use
       count     : require('./librato').middleware.routeCount
-      flush     : require('./librato').flush
 
 ## Configuration
 
     process.env.PORT ?= 8080
-    process.env.LIBRATO_INTERVAL ?= 1
 
     app = module.exports = express()
 
     app.set 'json spaces', 2
     app.set 'x-powered-by', false
 
-    app.use body.json()
+    app.use bodyParser.json()
 
     if app.get('env').toLowerCase() isnt 'test'
       app.use logger 'dev'
@@ -71,7 +73,7 @@ body is required for this request so we can safely end this request now.
       res.redirect '/api/v1'
 
     app.all '/CloudHealthCheck', (req, res, next) ->
-      mongo.db.command dbStats: true, (err) ->
+      require('mongo').db.command dbStats: true, (err) ->
         return next err if err
 
         res.status 200
@@ -109,7 +111,7 @@ requests shall not contain any body – this applies for errors as well.
 ### Start Server
 
     if not module.parent
-      mongo.on 'ready', ->
+      require('mongo').on 'ready', ->
         app.listen process.env.PORT
         console.log "Server is listening on port #{process.env.PORT}"
 
