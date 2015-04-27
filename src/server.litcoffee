@@ -4,7 +4,6 @@
 
     bodyParser    = require 'body-parser'
     compression   = require 'compression'
-    responseTime  = require 'response-time'
 
     raven         = require 'raven'
     sentry        = require './sentry'
