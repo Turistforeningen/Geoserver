@@ -104,7 +104,7 @@ requests shall not contain any body – this applies for errors as well.
     app.use (err, req, res, next) ->
       res.status err.status or 500
 
-      console.log err if app.get 'env' isnt 'TEST'
+      console.log err if get('env').toLowerCase() isnt 'test'
 
       if res.statusCode >= 500
         console.error err.message
