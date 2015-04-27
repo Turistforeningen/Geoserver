@@ -67,11 +67,6 @@ body is required for this request so we can safely end this request now.
 
       return next()
 
-## Not Found
-
-    app.use (req, res, next) ->
-      res.status(404).json message: 'Not Found'
-
 ## Routes
 
     app.get '/', (req, res, next) ->
@@ -86,6 +81,11 @@ body is required for this request so we can safely end this request now.
         return res.json message: 'System OK'
 
     app.use '/api/v1', require './routes/api_v1'
+
+## Not Found
+
+    app.use (req, res, next) ->
+      res.status(404).json message: 'Not Found'
 
 ### Error Handling
 
