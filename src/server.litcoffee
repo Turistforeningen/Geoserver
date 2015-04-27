@@ -25,6 +25,7 @@
     app.use bodyParser.json()
 
     if app.get('env').toLowerCase() isnt 'test'
+      app.use compression()
       app.use logger 'dev'
       app.use '/api', librato.middleware
       app.use '/api', librato.count name: 'request', period: 1
