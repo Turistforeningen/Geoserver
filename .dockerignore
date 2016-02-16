@@ -8,18 +8,16 @@ lib-cov
 *.gz
 *.swp
 *.swo
-*.gpx
-*.json
 .DS_Store
-.env
+.gitignore
 
 pids
 logs
 results
+docker-compose.yml
+wercker.yml
 
-node_modules/
-lib/
 env/
+test/
 
-.vagrant/
-
+.git/
