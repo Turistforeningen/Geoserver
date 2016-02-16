@@ -1,37 +1,56 @@
-box: wercker/nodejs
+box: node:argon
+
+services:
+  - redis
+
 build:
-    steps:
-        - npm-install
+  steps:
+    - script:
+        name: echo nodejs information
+        code: |
+          echo "node version $(node -v) running"
+          echo "npm version $(npm -v) running"
 
-        - script:
-                name: npm run-script test-drone
-                code: |
-                    npm run-script test-drone
+    - npm-install
 
-        - script:
-                name: echo nodejs information
-                code: |
-                    echo "node version $(node -v) running"
-                    echo "npm version $(npm -v) running"
+    - script:
+        name: lint
+        code: npm run lint
 
-    after-steps:
-        - turistforeningen/slack-notifier:
-                url: $SLACK_WEBHOOK_URL
+    - npm-test
+
+  after-steps:
+    - turistforeningen/slack-notifier:
+        url: $SLACK_WEBHOOK_URL
 
 deploy:
     steps:
-        - add-to-known_hosts:
-            hostname: dotcloudapp.com
-            fingerprint: 8b:1d:ac:91:0c:92:a8:ea:3c:95:1b:d0:fb:df:f3:13
+        # Reinstall node_modules to fix broken symlinks
+        # https://github.com/wercker/docs/issues/310
+        - script:
+            name: rm node_modules
+            code: rm -rf node_modules
 
-        - starefossen/dotcloud-deploy:
-            keyname: SSHKEY
-            dcemail: $DC_EMAIL
-            dcpassword: $DC_PASSWORD
-            appname: $APPNAME
+        - npm-install
 
-        #- kwakayama/npm-publish
+        - script:
+            name: docker hub build
+            code: |
+                curl --verbose \
+                    -H "Content-Type: application/json" \
+                    -d "{\"docker_tag\": \"$DOCKER_TRIGGER_TAG\"}" \
+                    -X POST $DOCKER_TRIGGER_URL
+
+        - script:
+            name: semantic release pre
+            code: npm run semantic-release -- pre
+
+        - turistforeningen/npm-publish
+
+        - script:
+            name: semantic release post
+            code: npm run semantic-release -- post
 
     after-steps:
         - turistforeningen/slack-notifier:
-                url: $SLACK_WEBHOOK_URL
+            url: $SLACK_WEBHOOK_URL
