@@ -14,7 +14,8 @@
     "lint": "coffeelint src/* src/routes/*",
     "prepublish": "coffee --bare --compile --output lib/ src/",
     "watch": "NODE_ENV=test mocha -w -b -c --check-leaks test/index.coffee -R progress --compilers coffee:coffee-script/register,litcoffee:coffee-script/register",
-    "test": "NODE_ENV=test node_modules/.bin/mocha -b -c --check-leaks test/index.coffee -R tap --compilers coffee:coffee-script/register,litcoffee:coffee-script/register"
+    "test": "NODE_ENV=test node_modules/.bin/mocha -b -c --check-leaks test/index.coffee -R tap --compilers coffee:coffee-script/register,litcoffee:coffee-script/register",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "dashdash": "^1.8.0",
     "mocha": "^2.2.1",
     "request": "^2.55.0",
+    "semantic-release": "^4.3.5",
     "supertest": "0.15.0",
     "supervisor": "0.6.0"
   },
