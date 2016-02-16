@@ -17,4 +17,3 @@
     inherits Mongo, EventEmitter
 
     module.exports = new Mongo(process.env.MONGO_URI)
-

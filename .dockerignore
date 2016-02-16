@@ -14,10 +14,10 @@ lib-cov
 pids
 logs
 results
+docker-compose.yml
+wercker.yml
 
 env/
 test/
 
-.vagrant/
 .git/
-

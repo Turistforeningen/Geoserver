@@ -1,0 +1,10 @@
+dev:
+    image: node:argon
+    env_file: .env
+    working_dir: /usr/src/app
+    volumes:
+        - .:/usr/src/app
+    command: npm start
+    environment:
+        - NODE_ENV=development
+        - ALLOW_ORIGINS=example1.com,example2.com

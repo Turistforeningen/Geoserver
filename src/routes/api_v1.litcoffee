@@ -9,11 +9,11 @@
         boundary_intersect_post:
           method: 'POST'
           endpoint: "#{req.originalUrl}/boundary/intersect/"
-          example_body: '{"geojson": { "type": "LineString", "coordinates": [[ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ]] }}'
+          example_body: '{"geojson": { "type": "LineString", "coordinates": […] }}'
         line_analyze_post:
           method: 'POST'
           endpoint: "#{req.originalUrl}/boundary/intersect/"
-          example_body: '{"geojson": { "type": "LineString", "coordinates": [[ 5.32907, 60.39826 ], [ 6.41474, 60.62869 ]] }}'
+          example_body: '{"geojson": { "type": "LineString", "coordinates": […] }}'
         gpx_parse_post:
           method: 'POST'
           endpoint: "#{req.originalUrl}/gpx/parse/"
@@ -24,7 +24,8 @@
         return res.status(400).json message: 'Body should be a JSON object'
 
       if req.body.geojson.type not in ['Point', 'LineString', 'Polygon']
-        return res.status(422).json message: 'Geometry type must be Point, Linestring, or Polygon'
+        return res.status(422).json
+          message: 'Geometry type must be Point, Linestring, or Polygon'
 
       if not (req.body.geojson.coordinates instanceof Array)
         return res.status(422).json message: 'Geometry coordinates must be an Array'
@@ -50,7 +51,8 @@
         return res.status(400).json message: 'Body should be a JSON object'
 
       if req.body.geojson.type not in ['Point', 'LineString', 'Polygon']
-        return res.status(422).json message: 'Geometry type must be Point, Linestring, or Polygon'
+        return res.status(422).json
+          message: 'Geometry type must be Point, Linestring, or Polygon'
 
       if not (req.body.geojson.coordinates instanceof Array)
         return res.status(422).json message: 'Geometry coordinates must be an Array'
@@ -59,7 +61,9 @@
 
       geojson.properties ?= {}
       geojson.properties.start = type: 'Point', coordinates: geojson.coordinates[0]
-      geojson.properties.stop  = type: 'Point', coordinates: geojson.coordinates[geojson.coordinates.length-1]
+      geojson.properties.stop  =
+        type: 'Point'
+        coordinates: geojson.coordinates[geojson.coordinates.length-1]
 
       return res.json
         length: Math.floor geoutil.lineDistance req.body.geojson.coordinates, true
