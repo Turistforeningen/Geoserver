@@ -1,0 +1,11 @@
+.dockerignore
+.env
+.git/
+.gitignore
+Dockerfile
+docker-compose.yml
+node_modules/
+src/
+test/
+util/
+wercker.yml
