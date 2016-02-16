@@ -1,7 +1,9 @@
-Geoserver
-=========
+# Geoserver
 
 [![Build status](https://img.shields.io/wercker/ci/55218d2a6dda5c9817000dc0.svg "Build status")](https://app.wercker.com/project/bykey/412cde1d2e74f111f5b80af62ddbc7d0)
+[![NPM downloads](https://img.shields.io/npm/dm/geoserver.svg "NPM downloads")](https://www.npmjs.com/package/geoserver)
+[![NPM version](https://img.shields.io/npm/v/geoserver.svg "NPM version")](https://www.npmjs.com/package/geoserver)
+[![Node version](https://img.shields.io/node/v/geoserver.svg "Node version")](https://www.npmjs.com/package/geoserver)
 [![Dependency status](https://img.shields.io/david/Turistforeningen/Geoserver.svg "Dependency status")](https://david-dm.org/Turistforeningen/Geoserver)
 
 In-house Geoserver written in Node.JS.
