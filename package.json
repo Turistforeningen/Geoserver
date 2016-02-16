@@ -11,6 +11,7 @@
   "scripts": {
     "start": "supervisor -w src -- src/server.litcoffee",
     "build": "coffee --compile --bare --output lib/ src/",
+    "lint": "coffeelint src/* src/routes/*",
     "prepublish": "coffee --bare --compile --output lib/ src/",
     "postpublish": "rm -rf lib/*",
     "test": "NODE_ENV=test mocha -w -b -c --check-leaks test/index.coffee -R progress --compilers coffee:coffee-script/register,litcoffee:coffee-script/register",
@@ -36,6 +37,7 @@
   "homepage": "https://github.com/Turistforeningen/Geoserver",
   "devDependencies": {
     "async": "^0.9.0",
+    "coffeelint": "^1.14.2",
     "dashdash": "^1.8.0",
     "mocha": "^2.2.1",
     "request": "^2.55.0",

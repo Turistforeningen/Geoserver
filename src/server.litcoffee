@@ -119,4 +119,3 @@ requests shall not contain any body – this applies for errors as well.
       require('./mongo').on 'ready', ->
         app.listen process.env.PORT
         console.log "Server is listening on port #{process.env.PORT}"
-
