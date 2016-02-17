@@ -35,6 +35,18 @@ describe 'CORS', ->
       .expect 'Access-Control-Allow-Max-Age', 0
       .end done
 
+  it 'should allow wildcard dommains', (done) ->
+    req.options '/'
+      .set 'Origin', 'http://foo.example3.com'
+      .expect 200
+      .end done
+
+  it 'should allow multiple levels for wildcard domains', (done) ->
+    req.options '/'
+      .set 'Origin', 'http://foo.bar.example3.com'
+      .expect 200
+      .end done
+
   it 'should deny non-allowed Origin', (done) ->
     req.options '/'
       .set 'Origin', 'http://example3.com'

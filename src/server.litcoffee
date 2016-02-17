@@ -36,16 +36,24 @@ Cross-site HTTP requests are HTTP requests for resources from a different domain
 than the domain of the resource making the request. [Read
 More](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
 
-    origins = process.env.ALLOW_ORIGINS?.split(',') or []
+    origins = for origin in (process.env.ALLOW_ORIGINS?.split(',') or [])
+      origin = origin.replace /([.?*+^$[\]\\(){}|-])/g, '\\$1'
+      origin = origin.replace /\\\*/g, '.+'
+
+      new RegExp "^#{origin}$", 'i'
 
     app.use (req, res, next) ->
       if req.get 'Origin'
-        origin = url.parse req.get('Origin') or ''
+        host = url.parse req.get('Origin') or ''
 
-Check if the request Origin is on in the `ALLOW_ORIGINS` list. If not return a
-403 to prevent this Origin from misusing the service.
+Check if the request Origin is on in the `ALLOW_ORIGINS` list.
 
-        if origin.hostname not in origins
+        allow = false
+        allow = true for origin in origins when origin.test host.hostname
+
+Return a 403 if Origin is not on the allowed list.
+
+        if not allow
           error = new Error "Bad Origin Header #{req.get('Origin')}"
           error.status = 403
           return next error
