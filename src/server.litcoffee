@@ -22,7 +22,8 @@
     app.set 'json spaces', 2
     app.set 'x-powered-by', false
 
-    app.use bodyParser.json()
+    app.use bodyParser.json
+      limit: process.env.UPLOAD_LIMIT or '10mb'
 
     if app.get('env').toLowerCase() isnt 'test'
       app.use compression()
