@@ -11,10 +11,9 @@
 
       kwargs
 
-    if process.env.NODE_ENV isnt 'development'
+    if process.env.NODE_ENV is 'production'
       module.exports.patchGlobal (id, err) ->
         console.error 'Uncaught Exception'
         console.error err.message
         console.error err.stack
         process.exit 1
-
