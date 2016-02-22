@@ -69,9 +69,13 @@
         length: Math.floor geoutil.lineDistance req.body.geojson.coordinates, true
         geojson: geojson
 
-    apiv1.use '/gpx/parse', require('multer')
-      putSingleFilesInArray: true
+    upload = require('multer')
       dest: require('os').tmpdir()
+      fileFilter: (req, file, cb) ->
+        file.extension = file.originalname.split('.').reverse()[0]
+        cb null, true
+
+    apiv1.use '/gpx/parse', upload.fields [name: 'files[]']
 
     readFileSync = require('fs').readFileSync
     DOMParser = require('xmldom').DOMParser
@@ -99,4 +103,3 @@
       res.json req.files
 
     module.exports = apiv1
-

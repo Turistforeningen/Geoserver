@@ -54,7 +54,7 @@
     "librato-express": "^0.3.1",
     "mongodb": "^2.0.25",
     "morgan": "^1.7.0",
-    "multer": "^0.1.8",
+    "multer": "^1.1.0",
     "raven": "^0.7.3",
     "togeojson": "^0.13.0",
     "xmldom": "^0.1.19"
