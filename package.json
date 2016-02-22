@@ -56,7 +56,7 @@
     "morgan": "^1.5.2",
     "multer": "^0.1.8",
     "raven": "^0.7.3",
-    "togeojson": "^0.11.1",
+    "togeojson": "^0.13.0",
     "xmldom": "^0.1.19"
   },
   "config": {
