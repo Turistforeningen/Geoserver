@@ -53,7 +53,7 @@
     "geoutil": "^1.2.0",
     "librato-express": "^0.3.1",
     "mongodb": "^2.0.25",
-    "morgan": "^1.5.2",
+    "morgan": "^1.7.0",
     "multer": "^0.1.8",
     "raven": "^0.7.3",
     "togeojson": "^0.13.0",
