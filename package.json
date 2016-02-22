@@ -13,8 +13,8 @@
     "build": "coffee --compile --bare --output lib/ src/",
     "lint": "coffeelint src/* src/routes/*",
     "prepublish": "coffee --bare --compile --output lib/ src/",
-    "watch": "NODE_ENV=test mocha -w -b -c --check-leaks test/index.coffee -R progress --compilers coffee:coffee-script/register,litcoffee:coffee-script/register",
-    "test": "NODE_ENV=test node_modules/.bin/mocha -b -c --check-leaks test/index.coffee -R tap --compilers coffee:coffee-script/register,litcoffee:coffee-script/register",
+    "watch": "mocha -w -r test/support/env -R progress --compilers coffee:coffee-script/register,litcoffee:coffee-script/register test/index.coffee",
+    "test": "mocha -b -c --check-leaks -r test/support/env -R tap --compilers coffee:coffee-script/register,litcoffee:coffee-script/register test/index.coffee",
     "semantic-release": "semantic-release"
   },
   "repository": {
