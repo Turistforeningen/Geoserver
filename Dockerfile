@@ -12,7 +12,7 @@ RUN npm install --production
 COPY . /usr/src/app
 RUN npm run build
 
-USER app
 RUN chown -R app:app /usr/src/app
+USER app
 
 CMD [ "node", "lib/server.js" ]
