@@ -42,7 +42,7 @@
     "mocha": "^2.2.1",
     "request": "^2.55.0",
     "semantic-release": "^4.3.5",
-    "supertest": "0.15.0",
+    "supertest": "^1.2.0",
     "supervisor": "0.6.0"
   },
   "dependencies": {
