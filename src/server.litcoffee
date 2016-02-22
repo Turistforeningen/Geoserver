@@ -31,6 +31,10 @@
       app.use '/api', librato.middleware
       app.use '/api', librato.count name: 'request', period: 1
 
+## Sentry Request Handler
+
+    app.use raven.middleware.express.requestHandler sentry
+
 ## CORS
 
 Cross-site HTTP requests are HTTP requests for resources from a different domain
@@ -101,7 +105,7 @@ body is required for this request so we can safely end this request now.
 Before handling the error ours self make sure that it is propperly logged in
 Sentry by using the express/connect middleware.
 
-    app.use raven.middleware.express sentry
+    app.use raven.middleware.express.errorHandler sentry
 
 All errors passed to `next` or exceptions ends up here. We set the status code
 to `500` if it is not already defined in the `Error` object. We then print the
