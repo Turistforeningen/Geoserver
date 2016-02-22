@@ -6,18 +6,17 @@ lib-cov
 *.out
 *.pid
 *.gz
-*.swp
 *.swo
+*.swp
 .DS_Store
+.env
 .gitignore
 
-pids
-logs
-results
+.git/
+
 docker-compose.yml
 wercker.yml
 
-env/
 test/
-
-.git/
+util/
+node_modules/
