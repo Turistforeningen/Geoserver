@@ -43,7 +43,7 @@
     "request": "^2.55.0",
     "semantic-release": "^4.3.5",
     "supertest": "^1.2.0",
-    "supervisor": "0.6.0"
+    "supervisor": "^0.9.1"
   },
   "dependencies": {
     "body-parser": "^1.12.2",
