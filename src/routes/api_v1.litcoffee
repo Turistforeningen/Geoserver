@@ -75,7 +75,7 @@
         file.extension = file.originalname.split('.').reverse()[0]
         cb null, true
 
-    apiv1.use '/gpx/parse', upload.fields [name: 'files[]']
+    apiv1.use '/gpx/parse', upload.any()
 
     readFileSync = require('fs').readFileSync
     DOMParser = require('xmldom').DOMParser
@@ -85,21 +85,26 @@
     apiv1.post '/gpx/parse', (req, res, next) ->
       res.end() if not req.files
 
-      for field, files of req.files
-        for file, i in files
-          req.files[field][i] =
-            fieldname: file.fieldname
-            filename: file.originalname
-            extension: file.extension
-            mimetype: file.mimetype
-            geojson: null
+      files = {}
 
-          if file.extension is 'gpx'
-            dom = domparser.parseFromString readFileSync file.path, 'utf8'
-            req.files[field][i].geojson = geojsonFromGpx dom
-          else
-            req.files[field][i].error = "Invalid extension '#{file.extension}'"
+      for f in req.files
+        files[f.fieldname] = [] if not files[f.fieldname]
 
-      res.json req.files
+        file =
+          fieldname: f.fieldname
+          filename: f.originalname
+          extension: f.extension
+          mimetype: f.mimetype
+          geojson: null
+
+        if file.extension is 'gpx'
+          dom = domparser.parseFromString readFileSync f.path, 'utf8'
+          file.geojson = geojsonFromGpx dom
+        else
+          file.error = "Invalid extension '#{file.extension}'"
+
+        files[f.fieldname].push file
+
+      res.json files
 
     module.exports = apiv1

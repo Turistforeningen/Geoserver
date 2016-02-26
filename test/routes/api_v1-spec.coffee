@@ -123,6 +123,20 @@ describe '/gpx/parse', ->
         assert.equal typeof res.body['files[]'][0].geojson, 'object'
       .end done
 
+  it 'should parse uploaded GPX file with arbitrary field name', (done) ->
+    @timeout 5000
+    req.post url
+      .attach 'gpx', resolve __dirname, '../data/totland.gpx'
+      .expect 200
+      .expect (res) ->
+        assert.equal res.body['gpx'].length, 1
+        assert.equal res.body['gpx'][0].fieldname, 'gpx'
+        assert.equal res.body['gpx'][0].filename, 'totland.gpx'
+        assert.equal res.body['gpx'][0].extension, 'gpx'
+        assert.equal res.body['gpx'][0].mimetype, 'application/gpx+xml'
+        assert.equal typeof res.body['gpx'][0].geojson, 'object'
+      .end done
+
   it 'should return error for non GPX file', (done) ->
     req.post url
       .attach 'files[]', resolve __dirname, '../data/file.json'
@@ -136,4 +150,3 @@ describe '/gpx/parse', ->
         assert.equal res.body['files[]'][0].geojson, null
         assert.equal res.body['files[]'][0].error, 'Invalid extension \'json\''
       .end done
-
