@@ -44,6 +44,10 @@ npm:
         code: npm rebuild
 
     - script:
+        name: prepublish
+        code: npm run prepublish
+
+    - script:
         name: semantic release pre
         code: npm run semantic-release -- pre
 
