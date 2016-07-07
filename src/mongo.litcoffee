@@ -6,6 +6,8 @@
       EventEmitter.call @
 
       new MongoClient.connect uri, (err, database) =>
+        console.log('MongoDB connection opened')
+
         throw err if err
         @db = database
         @grenser = @db.collection 'grenser'
