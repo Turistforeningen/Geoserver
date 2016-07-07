@@ -94,7 +94,9 @@ body is required for this request so we can safely end this request now.
 
         res.status 200
         return res.end() if req.method is 'HEAD'
-        return res.json message: 'System OK'
+        return res.json
+          message: 'System OK'
+          connections: mongo.db.serverConfig.connections().length
 
     app.use '/api/v1', require './routes/api_v1'
 

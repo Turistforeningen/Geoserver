@@ -20,7 +20,7 @@ describe '/CloudHealthCheck', ->
     req.get '/CloudHealthCheck'
       .expect 200
       .expect (res) ->
-        assert.deepEqual res.body, message: 'System OK'
+        assert.deepEqual res.body, message: 'System OK', connections: 2
       .end done
 
 describe 'CORS', ->
