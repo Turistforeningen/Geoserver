@@ -3,11 +3,7 @@
   "version": null,
   "description": "Geoserver written in Node.JS",
   "main": "lib/server.js",
-  "directories": {
-    "test": "test",
-    "src": "src",
-    "lib": "lib"
-  },
+  "files": ["lib"],
   "scripts": {
     "start": "supervisor -w src -- src/server.litcoffee",
     "build": "coffee --compile --bare --output lib/ src/",
