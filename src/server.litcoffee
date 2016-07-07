@@ -7,6 +7,7 @@
 
     raven         = require 'raven'
     sentry        = require './sentry'
+    mongo         = require './mongo'
 
     process.env.LIBRATO_INTERVAL ?= 1
     librato =
@@ -86,7 +87,7 @@ body is required for this request so we can safely end this request now.
       res.redirect '/api/v1'
 
     app.all '/CloudHealthCheck', (req, res, next) ->
-      require('./mongo').db.command dbStats: true, (err) ->
+      mongo.db.command dbStats: true, (err) ->
         return next err if err
 
         res.status 200
@@ -129,6 +130,6 @@ requests shall not contain any body – this applies for errors as well.
 ### Start Server
 
     if not module.parent
-      require('./mongo').on 'ready', ->
+      mongo.on 'ready', ->
         app.listen process.env.PORT
         console.log "Server is listening on port #{process.env.PORT}"
