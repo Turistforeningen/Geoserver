@@ -1,8 +1,5 @@
 box: node:argon
 
-services:
-  - redis
-
 build:
   steps:
     - script:
@@ -10,6 +7,7 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
+          echo "npm registry $(npm config get registry)"
 
     - npm-install
 
@@ -23,34 +21,38 @@ build:
     - turistforeningen/slack-notifier:
         url: $SLACK_WEBHOOK_URL
 
-deploy:
-    steps:
-        # Reinstall node_modules to fix broken symlinks
-        # https://github.com/wercker/docs/issues/310
-        - script:
-            name: rm node_modules
-            code: rm -rf node_modules
+docker:
+  steps:
+    - script:
+        name: docker hub build
+        code: |
+          curl --verbose \
+            -H "Content-Type: application/json" \
+            -d "{\"source_type\": \"Branch\", \"source_name\": \"$WERCKER_GIT_BRANCH\"}" \
+            -X POST $DOCKER_TRIGGER_URL
 
-        - npm-install
+  after-steps:
+    - turistforeningen/slack-notifier:
+        url: $SLACK_WEBHOOK_URL
 
-        - script:
-            name: docker hub build
-            code: |
-                curl --verbose \
-                    -H "Content-Type: application/json" \
-                    -d "{\"docker_tag\": \"$DOCKER_TRIGGER_TAG\"}" \
-                    -X POST $DOCKER_TRIGGER_URL
+npm:
+  steps:
+    # Rebuild node_modules to fix broken symlinks
+    # https://github.com/wercker/docs/issues/310
+    - script:
+        name: npm rebuild
+        code: npm rebuild
 
-        - script:
-            name: semantic release pre
-            code: npm run semantic-release -- pre
+    - script:
+        name: semantic release pre
+        code: npm run semantic-release -- pre
 
-        - turistforeningen/npm-publish
+    - turistforeningen/npm-publish
 
-        - script:
-            name: semantic release post
-            code: npm run semantic-release -- post
+    - script:
+        name: semantic release post
+        code: npm run semantic-release -- post
 
-    after-steps:
-        - turistforeningen/slack-notifier:
-            url: $SLACK_WEBHOOK_URL
+  after-steps:
+    - turistforeningen/slack-notifier:
+        url: $SLACK_WEBHOOK_URL
