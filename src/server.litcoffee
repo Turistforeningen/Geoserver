@@ -55,7 +55,9 @@ More](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS).
 Check if the request Origin is on in the `ALLOW_ORIGINS` list.
 
         allow = false
-        allow = true for origin in origins when origin.test host.hostname
+
+        for origin in origins when origin.test host.hostname
+          allow = true
 
 Return a 403 if Origin is not on the allowed list.
 
