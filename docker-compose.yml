@@ -1,10 +1,20 @@
-dev:
+version: '2'
+
+services:
+  node:
     image: node:argon
-    env_file: .env
+    network_mode: 'bridge'
     working_dir: /usr/src/app
+    ports:
+      - "8080"
     volumes:
-        - .:/usr/src/app
-    command: npm start
+      - .:/usr/src/app
+    env_file: .env
     environment:
-        - NODE_ENV=development
-        - ALLOW_ORIGINS=example1.com,www.example2.com,*.example3.com
+      - NODE_ENV=development
+      - NPM_CONFIG_LOGLEVEL=silent
+      - NPM_CONFIG_PROGRESS=false
+      - NPM_CONFIG_SPIN=false
+      - VIRTUAL_HOST=skadi.app.dnt.privat
+      - VIRTUAL_PORT=8080
+    command: npm start
