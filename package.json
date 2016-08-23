@@ -3,7 +3,9 @@
   "version": null,
   "description": "Geoserver written in Node.JS",
   "main": "lib/server.js",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "start": "supervisor -w src -- src/server.litcoffee",
     "build": "coffee --compile --bare --output lib/ src/",
@@ -32,12 +34,12 @@
   },
   "homepage": "https://github.com/Turistforeningen/Geoserver#readme",
   "devDependencies": {
-    "async": "^1.5.2",
+    "async": "^2.0.1",
     "coffeelint": "^1.14.2",
     "dashdash": "^1.8.0",
-    "mocha": "^2.2.1",
+    "mocha": "^3.0.2",
     "semantic-release": "^4.3.5",
-    "supertest": "^1.2.0",
+    "supertest": "^2.0.0",
     "supervisor": "^0.11.0"
   },
   "dependencies": {
@@ -46,12 +48,12 @@
     "compression": "^1.4.3",
     "express": "^4.12.3",
     "geoutil": "^1.2.0",
-    "librato-express": "^0.3.1",
+    "librato-express": "^0.4.0",
     "mongodb": "^2.0.25",
     "morgan": "^1.7.0",
     "multer": "^1.1.0",
-    "raven": "^0.11.0",
-    "togeojson": "^0.13.0",
+    "raven": "^0.12.1",
+    "togeojson": "^0.14.2",
     "xmldom": "^0.1.19"
   },
   "config": {
