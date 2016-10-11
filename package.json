@@ -35,7 +35,7 @@
     "async": "^1.5.2",
     "coffeelint": "^1.14.2",
     "dashdash": "^1.8.0",
-    "mocha": "^2.2.1",
+    "mocha": "^3.1.2",
     "semantic-release": "^4.3.5",
     "supertest": "^1.2.0",
     "supervisor": "^0.11.0"
