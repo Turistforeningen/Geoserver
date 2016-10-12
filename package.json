@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/Turistforeningen/Geoserver#readme",
   "devDependencies": {
-    "async": "^1.5.2",
+    "async": "^2.1.1",
     "coffeelint": "^1.14.2",
     "dashdash": "^1.8.0",
     "mocha": "^2.2.1",
