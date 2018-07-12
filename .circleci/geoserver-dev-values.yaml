@@ -1,0 +1,92 @@
+# Default values for jotunheimr.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# app name
+fullnameOverride: "geoserver"
+
+# deployment spec
+replicaCount: 2
+restartPolicy: Always
+
+# autoscaling
+autoscaling: 
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 70
+
+# pod disruption budget
+disruptionBudget:
+  enabled: false
+  minAvailable: 1
+
+# containers
+containers:
+  - name: geoserver
+    image: eu.gcr.io/dnt-docker-registry-public/geoserver
+    tag: ""
+    pullPolicy: IfNotPresent
+    environment:
+      ALLOW_ORIGINS: "*.dnt.no,*.dnt.local"
+      FORCE_SSL: true
+      HSTS_MAX_AGE: 31536000
+      LIBRATO_TOKEN: ""
+      LIBRATO_USER: ali.kaafarani@turistforeningen.no
+      MONGO_URI: ""
+      NODE_ENV: production
+      PORT: 8080
+      SENTRY_DNS: ""
+      VIRTUAL_HOST: "https://geoserver.app.dnt.no,http://geoserver.app.dnt.no"
+      VIRTUAL_HOST_WEIGHT: 20
+      VIRTUAL_PORT: 8080
+    ports:
+      - name: "http"
+        containerPort: 8080
+        protocol: TCP
+    resources: {}
+      # limits:
+      #  cpu: 100m
+      #  memory: 128Mi
+      # requests:
+      #  cpu: 100m
+      #  memory: 128Mi
+    # livenessProbe:
+    #   path:
+    #   port:
+    # readinessProbe:
+    #   path:
+    #   port:
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []
+
+# services
+services:
+  - name: geoserver
+    expandName: true
+    type: ClusterIP
+    port: 8080
+
+ingress:
+  # Used to create an Ingress record.
+  enabled: true
+  hosts:
+    - host: geoserver.dev.dnt.org
+      paths:
+        - path: /
+          serviceName: geoserver
+          servicePort: 8080
+  annotations:
+    kubernetes.io/ingress.class: nginx
+
+  tls:
+    - secretName: geoserver-dev-tls
+      hosts:
+        - geoserver.dev.dnt.org
+cert:
+  enabled: true
+  issuer: "letsencrypt-production"
