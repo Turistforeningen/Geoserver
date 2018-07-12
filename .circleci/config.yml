@@ -28,14 +28,14 @@ jobs:
       #      when: on_fail
       #      command: |
       #        echo "sending fail slack notification ..."
-      #        curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#FF0000" ,"title": "Failed to build geoserver. Check circleci for details.",}] }' ${SLACK_WEBHOOK_CIRCLECI}    
+      #        curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#FF0000" ,"pretext": "Geoserver build-publish-deploy pipeline:","title": "Job: [build-code] for (Geoserver) failed. Check circleci for details.",}] }' ${SLACK_WEBHOOK_CIRCLECI}    
      
       - run: 
            name: notify slack on sucess
            when: on_success
            command: |
              echo "sending sucess slack notification ..."
-             curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#36a64f" ,"title": "Geoserver build completed sucessfully. Check circleci for details.",}] }' ${SLACK_WEBHOOK_CIRCLECI}           
+             curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#36a64f" ,"pretext": "Geoserver build-publish-deploy pipeline:","title": "Job: [build-code] for (Geoserver) completed sucessfully. Check circleci for details.",}] }' ${SLACK_WEBHOOK_CIRCLECI}           
 
 
   build-image:
@@ -72,14 +72,14 @@ jobs:
           when: on_success
           command: |
             echo "sending sucess slack notification ..."
-            curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#36a64f" ,"title": "Geoserver Docker image build and push completed sucessfully. Check circleci for details.",}] }' ${SLACK_WEBHOOK_CIRCLECI} 
+            curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#36a64f" ,"pretext": "Geoserver build-publish-deploy pipeline:","title": "Job: [build-image] for (Geoserver) completed sucessfully. Check circleci for details.",}] }' ${SLACK_WEBHOOK_CIRCLECI} 
 
       - run: 
           name: notify slack on failure
           when: on_fail
           command: |
             echo "sending fail slack notification ..."
-            curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#FF0000" ,"title": "Geoserver Docker image build and push failed. Check circleci for details.",}] }' ${SLACK_WEBHOOK_CIRCLECI}                      
+            curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#FF0000" ,"pretext": "Geoserver build-publish-deploy pipeline:","title": "Job: [build-image] for (Geoserver) failed. Check circleci for details.",}] }' ${SLACK_WEBHOOK_CIRCLECI}                      
   
   deploy-to-dev:
     docker:
@@ -112,7 +112,7 @@ jobs:
   #           helmsman -debug -apply -f .circleci/helmsman-prod-deployment.toml          
 workflows:
   version: 2
-  build-and-publish:
+  build-publish-deploy:
     jobs:
       - build-code:
           filters:
