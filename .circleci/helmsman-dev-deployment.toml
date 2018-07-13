@@ -46,7 +46,6 @@ dnt = "gs://dnt-helm-repo"
     valuesFile = "geoserver-dev-values.yaml"
     protected = true
     [apps.geoserver.set]
-       "containers[0].tag" = "$IMAGE_TAG"
        "containers[0].environment.LIBRATO_TOKEN" = "$GEOSERVER_LIBRATO_TOKEN"
        "containers[0].environment.MONGO_URI" = "$GEOSERVER_MONGO_URI"
        "containers[0].environment.SENTRY_DNS" = "$GEOSERVER_SENTRY_DNS"
