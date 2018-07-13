@@ -28,44 +28,14 @@ jobs:
            when: on_fail
            command: |
              echo "sending fail slack notification ..."
-             curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#FF0000" ,"pretext": "Geoserver build-publish-deploy pipeline:","title": "Job: [build-code] for (Geoserver) failed. Check circleci for details.","actions": [
-                {
-                    "type": "button",
-                    "name": "check_workflow",
-                    "text": "Check Workflow",
-                    "url": "https://circleci.com/workflow-run/'${CIRCLE_WORKFLOW_ID}'",
-                    "style": "danger"
-                },
-                {
-                    "type": "button",
-                    "name": "check_job",
-                    "text": "Check Job",
-                    "url": "https://circleci.com/gh/Turistforeningen/Geoserver/'${CIRCLE_BUILD_NUM}'",
-                    "style": "danger"
-                }
-            ]}] }' ${SLACK_WEBHOOK_CIRCLECI}    
+             curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#FF0000" ,"pretext": "Geoserver build-publish-deploy pipeline:","title": "Job: [build-code] for (Geoserver) failed. Check circleci for details.","actions": [{"type": "button","name": "check_workflow","text": "Check Workflow","url": "https://circleci.com/workflow-run/'${CIRCLE_WORKFLOW_ID}'","style": "danger"},{"type": "button","name": "check_job","text": "Check Job","url": "https://circleci.com/gh/Turistforeningen/Geoserver/'${CIRCLE_BUILD_NUM}'","style": "danger"}]}] }' ${SLACK_WEBHOOK_CIRCLECI}    
      
       - run: 
            name: notify slack on sucess
            when: on_success
            command: |
              echo "sending sucess slack notification ..."
-             curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#36a64f" ,"pretext": "Geoserver build-publish-deploy pipeline:","title": "Job: [build-code] for (Geoserver) completed sucessfully. Check circleci for details.","actions": [
-                {
-                    "type": "button",
-                    "name": "check_workflow",
-                    "text": "Check Workflow",
-                    "url": "https://circleci.com/workflow-run/'${CIRCLE_WORKFLOW_ID}'",
-                    "style": "primary"
-                },
-                {
-                    "type": "button",
-                    "name": "check_job",
-                    "text": "Check Job",
-                    "url": "https://circleci.com/gh/Turistforeningen/Geoserver/'${CIRCLE_BUILD_NUM}'",
-                    "style": "primary"
-                }
-            ]}] }' ${SLACK_WEBHOOK_CIRCLECI}           
+             curl -X POST -H 'Content-type: application/json' --data '{"attachments": [{"fallback": "Geoserver Build result","color": "#36a64f" ,"pretext": "Geoserver build-publish-deploy pipeline:","title": "Job: [build-code] for (Geoserver) completed sucessfully. Check circleci for details.","actions": [{"type": "button","name": "check_workflow","text": "Check Workflow","url": "https://circleci.com/workflow-run/'${CIRCLE_WORKFLOW_ID}'","style": "primary"},{"type": "button","name": "check_job","text": "Check Job","url": "https://circleci.com/gh/Turistforeningen/Geoserver/'${CIRCLE_BUILD_NUM}'","style": "primary"}]}] }' ${SLACK_WEBHOOK_CIRCLECI}           
 
 
   build-image:
