@@ -89,7 +89,6 @@ jobs:
       - run:
           name: run helmsman
           command: |
-            export IMAGE_TAG=${CIRCLE_SHA1:0:9}
             helmsman -debug -apply -f .circleci/helmsman-dev-deployment.toml
   deploy-to-beta:
     docker:
