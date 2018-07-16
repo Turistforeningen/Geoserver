@@ -84,9 +84,9 @@ ingress:
     kubernetes.io/ingress.class: nginx
 
   tls:
-    - secretName: geoserver-dev-tls
+    - secretName: dev-beta-dnt-org-tls
       hosts:
         - geoserver.dev.dnt.org
 cert:
-  enabled: true
+  enabled: false
   issuer: "letsencrypt-production"
