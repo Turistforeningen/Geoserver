@@ -21,9 +21,7 @@ jobs:
 
       - run:
           name: test
-          command: npm test
-          environment:
-            MONGO_URI: $DEV_MONGO_URI
+          command: MONGO_URI=${DEV_MONGO_URI} npm test
 
       - run:
            name: notify slack on failure
