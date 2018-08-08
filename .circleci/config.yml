@@ -10,7 +10,7 @@ jobs:
             command: apt-get update && apt-get install jq
       - run:
             name: authenticate with Vault using github
-            commmand: |
+            command: |
               echo "{\n \"token\" : "$GITHUB_ACCESS_TOKEN"\n}"  > payload.json
               echo 'export VAULT_TOKEN=$(curl --request POST --data @payload.json vault.dev.dnt.org/v1/auth/github/login | jq -r .auth.client_token)' >> $BASH_ENV
               curl -k --header "X-Vault-Token: $VAULT_TOKEN" vault.dev.dnt.org/v1/auth/github/login | jq data.value
