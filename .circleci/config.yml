@@ -12,8 +12,9 @@ jobs:
             name: authenticate with Vault using github
             command: |
               echo "{\"token\" : \"$GITHUB_ACCESS_TOKEN\"}" > payload.json
-              echo 'export VAULT_TOKEN=$(curl --request POST --data @payload.json vault.dev.dnt.org/v1/auth/github/login | jq -r .auth.client_token)' >> $BASH_ENV
+              export VAULT_TOKEN=$(curl --request POST --data @payload.json vault.dev.dnt.org/v1/auth/github/login | jq -r .auth.client_token)
               curl -k --header "X-Vault-Token: $VAULT_TOKEN" vault.dev.dnt.org/v1/secret/geoserver/dev/mongo_uri | jq .data.value
+              echo 'export VAULT_TOKEN=$VAULT_TOKEN' >> $BASH_ENV
       - run:
            name: echo nodejs information
            command: |
