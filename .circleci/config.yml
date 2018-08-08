@@ -6,6 +6,15 @@ jobs:
     steps:
       - checkout
       - run:
+            name: install jq
+            command: apt-get update && apt-get install jq
+      - run:
+            name: authenticate with Vault using github
+            commmand: |
+              echo "{\n \"token\" : "$GITHUB_ACCESS_TOKEN"\n}"  > payload.json
+              echo 'export VAULT_TOKEN=$(curl --request POST --data @payload.json vault.dev.dnt.org/v1/auth/github/login | jq -r .auth.client_token)' >> $BASH_ENV
+              curl -k --header "X-Vault-Token: $VAULT_TOKEN" vault.dev.dnt.org/v1/auth/github/login | jq data.value
+      - run:
            name: echo nodejs information
            command: |
              echo "node version $(node -v) running"
@@ -21,7 +30,9 @@ jobs:
 
       - run:
           name: test
-          command: MONGO_URI=${DEV_MONGO_URI} npm test
+          command: |
+            export MONGO_URI=$(curl -k --header "X-Vault-Token: $VAULT_TOKEN" vault.dev.dnt.org/v1/auth/github/login | jq data.value)
+            npm test
 
       - run:
            name: notify slack on failure
@@ -38,77 +49,6 @@ jobs:
              ./.circleci/notify-slack.sh Geoserver build-publish-deploy true
 
 
-  build-image:
-    docker:
-      - image: google/cloud-sdk:latest
-
-    working_directory: ~/repo
-
-    steps:
-      - run:
-          name: authenticate with gcloud
-          command: |
-            echo $GCLOUD_DOCKER_CREDENTIALS > ${HOME}/gcloud-service-key.json
-            gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-      # if authentication succeeded - checkout code
-      - checkout
-
-      # starts a remote docker environment to run docker commands
-      - setup_remote_docker
-
-      - run:
-          name: build Geoserver docker image and push image to GCR
-          command: |
-            gcloud auth configure-docker --quiet
-            TAG=${CIRCLE_SHA1:0:9}
-            docker build -t geoserver .
-            docker tag geoserver eu.gcr.io/dnt-docker-registry-public/geoserver:latest
-            docker tag geoserver eu.gcr.io/dnt-docker-registry-public/geoserver:$TAG
-            docker push eu.gcr.io/dnt-docker-registry-public/geoserver:latest
-            docker push eu.gcr.io/dnt-docker-registry-public/geoserver:$TAG
-
-      - run:
-          name: notify slack on sucess
-          when: on_success
-          command: |
-            chmod +x .circleci/notify-slack.sh
-            ./.circleci/notify-slack.sh Geoserver build-publish-deploy true
-
-      - run:
-          name: notify slack on failure
-          when: on_fail
-          command: |
-            chmod +x .circleci/notify-slack.sh
-            ./.circleci/notify-slack.sh Geoserver build-publish-deploy false
-
-  deploy-to-dev:
-    docker:
-      - image: praqma/helmsman:v1.3.0-helm-v2.8.1
-    steps:
-      - checkout
-      - run:
-          name: run helmsman
-          command: |
-            helmsman -debug -apply -f .circleci/helmsman-dev-deployment.toml
-  deploy-to-beta:
-    docker:
-      - image: praqma/helmsman:v1.3.0-helm-v2.8.1
-    steps:
-      - checkout
-      - run:
-          name: run helmsman
-          command: |
-            helmsman -debug -apply -f .circleci/helmsman-beta-deployment.toml
-
-  # deploy-to-prod:
-  #   docker:
-  #     - image: praqma/helmsman:v1.3.0-helm-v2.8.1
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: run helmsman
-  #         command: |
-  #           helmsman -debug -apply -f .circleci/helmsman-prod-deployment.toml
 workflows:
   version: 2
   build-publish-deploy:
@@ -118,33 +58,4 @@ workflows:
           filters:
             branches:
               only:
-                - circleci
-      - build-image:
-          requires:
-            - build-code
-          context: dnt-k8s-dev-beta
-          filters:
-            branches:
-              only:
-                - circleci
-      # - deploy-to-dev:
-      #     requires:
-      #       - build-image
-      #     context: dnt-k8s-dev-beta
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      # - deploy-to-beta:
-      #     context: dnt-k8s-dev-beta
-      #     filters:
-      #       branches:
-      #         only:
-      #           - deploy-beta
-
-      # - deploy-to-prod:
-      #     context: dnt-k8s-prod
-      #     filters:
-      #       branches:
-      #         only:
-      #           - deploy-prod
+                - vault_testing
